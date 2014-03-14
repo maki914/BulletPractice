@@ -29,6 +29,7 @@ public:
 	ofxBulletCapsule*			capsule;
 	ofxBulletCylinder*			cylinder;
 	
-	ofCamera					camera;
+	ofEasyCam					camera;
+	ofLight						light;
 		
 };
