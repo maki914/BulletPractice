@@ -9,7 +9,7 @@ void testApp::setup() {
 	ofBackground(255, 255, 255);
 
 	//ÉJÉÅÉâê›íË
-	camera.setDistance(30);
+	camera.setDistance(20);
 	//camera.setPosition(ofVec3f(0, -7.f, -10.f));
 	//camera.lookAt(ofVec3f(0, 0, 0), ofVec3f(0, -1, 0));
 	//camera.setFov(60.f);
@@ -31,7 +31,9 @@ void testApp::setup() {
 	
 
 	sphere = new ofxBulletSphere();
-	sphere->create(world.world, ofVec3f(0, 10, 0), 0.1, 1.25);
+	//createÇÕofQuoternionÇëÊéOà¯êîÇ…ê›íËâ¬
+	sphere->create(world.world, ofVec3f(0, 10, 0), 0.1, 1.25);	//(btDiscreteDynamicsWorld*, à íu, éøó , îºåa)
+	sphere->setProperties(0.5, 0.5);
 	sphere->add();
 
 	box = new ofxBulletBox();
@@ -50,8 +52,8 @@ void testApp::setup() {
 	cylinder->create(world.world, ofVec3f(0, 2.4, 0), .8, .9, 1.8);
 	cylinder->add();
 
-	ground.create(world.world, ofVec3f(0., 0., 0.), 0., 100.f, 1.f, 100.f);
-	ground.setProperties(.25, .95);
+	ground.create(world.world, ofVec3f(0., 0., 0.), 0., 50.f, 0., 50.f);
+	ground.setProperties(1., 1.); //(Restitution:îΩî≠åWêî, Friction:ñÄéCåWêî)
 	ground.add();
 }
 
@@ -66,25 +68,25 @@ void testApp::update() {
 void testApp::draw() {
 	glEnable(GL_DEPTH_TEST);
 	camera.begin();
-	ofRotateX(15);
+	ofRotateX(45);
 
 	//ínñ ï`âÊ
-	//ofSetLineWidth(1.5f);
-	//ofSetColor(255, 0, 0);
-	//ofLine(-100, 5, 0, 100, 5, 0);
-	//ofSetColor(0, 0, 255);
-	//ofLine(0, 5, -100, 0, 5, 100);
-	//ofSetColor(0, 255, 0);
-	//ofLine(0, -100, 0, 0, 100, 0);
-	//ofSetColor(200);
+	ofSetLineWidth(1.5f);
+	ofSetColor(255, 0, 0);
+	ofLine(-100, 0, 0, 100, 0, 0);
+	ofSetColor(0, 0, 255);
+	ofLine(0, 0, -100, 0, 0, 100);
+	ofSetColor(0, 255, 0);
+	ofLine(0, -100, 0, 0, 100, 0);
+	ofSetColor(200);
 
-	//ofSetLineWidth(1.f);
-	//for (int i = -50; i <= 50; i++) {
-	//	ofLine(-50, 5, i, 50, 5, i);
-	//	ofLine(i, 5, -50, i, 5, 50);
-	//}
+	ofSetLineWidth(1.f);
+	for (int i = -50; i <= 50; i++) {
+		ofLine(-50, 0, i, 50, 0, i);
+		ofLine(i, 0, -50, i, 0, 50);
+	}
 
-	ofDrawGrid(50, 10, true, true, true, true);
+	//ofDrawGrid(50, 10, true, true, true, true);
 
 
 	ofSetLineWidth(1.f);
