@@ -28,6 +28,9 @@ public:
 	ofxBulletCone*				cone;
 	ofxBulletCapsule*			capsule;
 	ofxBulletCylinder*			cylinder;
+
+	vector<ofxBulletBaseShape*>		vectorBox;
+	ofMaterial						shapesMat;
 	
 	ofEasyCam					camera;
 	ofLight						light;

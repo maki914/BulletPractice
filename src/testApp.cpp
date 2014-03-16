@@ -17,15 +17,16 @@ void testApp::setup() {
 	//ライティング設定
 	light.enable();
 	light.setSpotlight();
+	light.setPointLight();
 	light.setPosition(0, 0, 0);
 	light.setAmbientColor(ofFloatColor(0.5, 0.5, 0.5, 1.0));
-	light.setDiffuseColor(ofFloatColor(0.5, 0.5, 1.0));
+	light.setDiffuseColor(ofFloatColor(0.5, 0.5, 0.5));
 	light.setSpecularColor(ofFloatColor(1.0, 1.0, 1.0));
 
 	world.setup();
 	//world.broadphase();
 	world.enableGrabbing();
-	world.setGravity(ofVec3f(0.f, -9.8f, 0.f));
+	world.setGravity(ofVec3f(0.f, -9.8f, 0.f));	//重力加速度
 	world.enableDebugDraw();
 	world.setCamera(&camera);
 	
@@ -44,10 +45,6 @@ void testApp::setup() {
 	cone->create(world.world, ofVec3f(-1, 1, .2), .2, .4, 1.);
 	cone->add();
 
-	capsule = new ofxBulletCapsule();
-	capsule->create(world.world, ofVec3f(1, 2, -.2), .4, .8, 1.2);
-	capsule->add();
-
 	cylinder = new ofxBulletCylinder();
 	cylinder->create(world.world, ofVec3f(0, 2.4, 0), .8, .9, 1.8);
 	cylinder->add();
@@ -62,6 +59,8 @@ void testApp::setup() {
 void testApp::update() {
 	world.update();
 	ofSetWindowTitle(ofToString(ofGetFrameRate(), 0));
+
+
 }
 
 //--------------------------------------------------------------
@@ -69,6 +68,57 @@ void testApp::draw() {
 	glEnable(GL_DEPTH_TEST);
 	camera.begin();
 	ofRotateX(45);
+	ofRotateY(-45);
+	//light.disable();
+
+
+
+	//ofDrawGrid(50, 25, false, false, true, false);
+	//ofEnableLighting();
+	//light.enable();
+	
+
+
+	ofSetLineWidth(1.f);
+	ofSetColor(255, 0, 200);
+	world.drawDebug();
+
+	//ofSetColor(100, 100, 100);
+	//ground.draw();
+
+	ofSetColor(225, 225, 225);
+	sphere->draw();
+
+	ofSetColor(225, 225, 225);
+
+	//if (ofGetFrameNum() % 30 == 0){
+	//	vectorBox.push_back(new ofxBulletBox());
+	//	((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(5, 50, 0), .05, .5, .5, .5);
+	//	((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+	//	vectorBox[vectorBox.size() - 1]->add();
+	//}
+
+	for (int i = 0; i < vectorBox.size(); i++){
+		vectorBox[i]->draw();
+	}
+
+	//ofPushStyle();
+	//shapesMat.begin();
+	//for (int i = 0; i < shapes.size(); i++) {
+	//	shapes[i]->draw();
+	//}
+	//shapesMat.end();
+	//ofPopStyle();
+	
+
+	ofSetColor(225, 225, 225);
+	cylinder->draw();
+
+
+
+	ofSetColor(225, 225, 225);
+	cone->draw();
+
 
 	//地面描画
 	ofSetLineWidth(1.5f);
@@ -86,41 +136,28 @@ void testApp::draw() {
 		ofLine(i, 0, -50, i, 0, 50);
 	}
 
-	//ofDrawGrid(50, 10, true, true, true, true);
-
-
-	ofSetLineWidth(1.f);
-	ofSetColor(255, 0, 200);
-	world.drawDebug();
-
-	//ofSetColor(100, 100, 100);
-	//ground.draw();
-
-	ofSetColor(225, 225, 225);
-	sphere->draw();
-
-	ofSetColor(225, 225, 225);
-	box->draw();
-	if (ofGetFrameNum() % 30 == 0){
-		box = new ofxBulletBox();
-		box->create(world.world, ofVec3f(7, 0, 0), .05, .5, .5, .5);
-		box->add();
-	}
-
-	ofSetColor(225, 225, 225);
-	cylinder->draw();
-
-	ofSetColor(225, 225, 225);
-	capsule->draw();
-
-	ofSetColor(225, 225, 225);
-	cone->draw();
-
 	camera.end();
+
+	//テキスト表示
+	int shapes = vectorBox.size();
+	stringstream ss;
+	ss << "Box Num: " << shapes << endl;
+	ofSetColor(50);
+	ofDrawBitmapString(ss.str().c_str(), 20, 20);
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key) {
+	switch (key){
+		case 'b':
+			vectorBox.push_back(new ofxBulletBox());
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(5, 50, 0), .05, .5, .5, .5);
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+			vectorBox[vectorBox.size() - 1]->add();
+			break;
+		default:
+			break;
+	}
 
 }
 
