@@ -4,8 +4,8 @@
 void testApp::setup() {
 	ofSetFrameRate(60);
 	ofSetVerticalSync(true);
-	ofEnableDepthTest();
-	ofEnableSmoothing();
+	//ofEnableDepthTest();
+	//ofEnableSmoothing();
 	ofBackground(255, 255, 255);
 
 	//カメラ設定
@@ -15,6 +15,7 @@ void testApp::setup() {
 	//camera.setFov(60.f);
 
 	//ライティング設定
+	ofEnableLighting();
 	light.enable();
 	light.setSpotlight();
 	light.setPointLight();
@@ -26,28 +27,28 @@ void testApp::setup() {
 	world.setup();
 	//world.broadphase();
 	world.enableGrabbing();
-	world.setGravity(ofVec3f(0.f, -9.8f, 0.f));	//重力加速度
 	world.enableDebugDraw();
 	world.setCamera(&camera);
+	world.setGravity(ofVec3f(0.f, -9.8f, 0.f));	//重力加速度
 	
 
-	sphere = new ofxBulletSphere();
-	//createはofQuoternionを第三引数に設定可
-	sphere->create(world.world, ofVec3f(0, 10, 0), 0.1, 1.25);	//(btDiscreteDynamicsWorld*, 位置, 質量, 半径)
-	sphere->setProperties(0.5, 0.5);
-	sphere->add();
+	//sphere = new ofxBulletSphere();
+	////createはofQuoternionを第三引数に設定可
+	//sphere->create(world.world, ofVec3f(0, 10, 0), 0.1, 1.25);	//(btDiscreteDynamicsWorld*, 位置, 質量, 半径)
+	//sphere->setProperties(0.5, 0.5);
+	//sphere->add();
 
-	box = new ofxBulletBox();
-	box->create(world.world, ofVec3f(7, 10, 0), .05, .5, .5, .5);
-	box->add();
+	//box = new ofxBulletBox();
+	//box->create(world.world, ofVec3f(7, 10, 0), .05, .5, .5, .5);
+	//box->add();
 
-	cone = new ofxBulletCone();
-	cone->create(world.world, ofVec3f(-1, 1, .2), .2, .4, 1.);
-	cone->add();
+	//cone = new ofxBulletCone();
+	//cone->create(world.world, ofVec3f(-1, 1, .2), .2, .4, 1.);
+	//cone->add();
 
-	cylinder = new ofxBulletCylinder();
-	cylinder->create(world.world, ofVec3f(0, 2.4, 0), .8, .9, 1.8);
-	cylinder->add();
+	//cylinder = new ofxBulletCylinder();
+	//cylinder->create(world.world, ofVec3f(0, 2.4, 0), .8, .9, 1.8);
+	//cylinder->add();
 
 	ground.create(world.world, ofVec3f(0., 0., 0.), 0., 50.f, 0., 50.f);
 	ground.setProperties(1., 1.); //(Restitution:反発係数, Friction:摩擦係数)
@@ -59,8 +60,6 @@ void testApp::setup() {
 void testApp::update() {
 	world.update();
 	ofSetWindowTitle(ofToString(ofGetFrameRate(), 0));
-
-
 }
 
 //--------------------------------------------------------------
@@ -70,7 +69,8 @@ void testApp::draw() {
 	ofRotateX(45);
 	ofRotateY(-45);
 	//light.disable();
-
+	ofDisableAlphaBlending();
+	ofDisableBlendMode();
 
 
 	//ofDrawGrid(50, 25, false, false, true, false);
@@ -87,7 +87,7 @@ void testApp::draw() {
 	//ground.draw();
 
 	ofSetColor(225, 225, 225);
-	sphere->draw();
+	//sphere->draw();
 
 	ofSetColor(225, 225, 225);
 
@@ -98,10 +98,10 @@ void testApp::draw() {
 	//	vectorBox[vectorBox.size() - 1]->add();
 	//}
 
+	//box描画
 	for (int i = 0; i < vectorBox.size(); i++){
 		vectorBox[i]->draw();
 	}
-
 	//ofPushStyle();
 	//shapesMat.begin();
 	//for (int i = 0; i < shapes.size(); i++) {
@@ -112,31 +112,36 @@ void testApp::draw() {
 	
 
 	ofSetColor(225, 225, 225);
-	cylinder->draw();
+	//cylinder->draw();
 
 
 
 	ofSetColor(225, 225, 225);
-	cone->draw();
+	//cone->draw();
 
 
 	//地面描画
 	ofSetLineWidth(1.5f);
 	ofSetColor(255, 0, 0);
-	ofLine(-100, 0, 0, 100, 0, 0);
+	ofLine(-50, 0, 0, 50, 0, 0);
 	ofSetColor(0, 0, 255);
-	ofLine(0, 0, -100, 0, 0, 100);
+	ofLine(0, 0, -50, 0, 0, 50);
 	ofSetColor(0, 255, 0);
-	ofLine(0, -100, 0, 0, 100, 0);
+	ofLine(0, -50, 0, 0, 50, 0);
 	ofSetColor(200);
 
 	ofSetLineWidth(1.f);
-	for (int i = -50; i <= 50; i++) {
-		ofLine(-50, 0, i, 50, 0, i);
-		ofLine(i, 0, -50, i, 0, 50);
+	for (int i = -25; i <= 25; i++) {
+		ofLine(-25, 0, i, 25, 0, i);
+		ofLine(i, 0, -25, i, 0, 25);
 	}
+	//light.disable();
+	//ofDisableLighting();
 
+	glDisable(GL_DEPTH_TEST);
 	camera.end();
+
+
 
 	//テキスト表示
 	int shapes = vectorBox.size();
@@ -151,8 +156,8 @@ void testApp::keyPressed(int key) {
 	switch (key){
 		case 'b':
 			vectorBox.push_back(new ofxBulletBox());
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(5, 50, 0), .05, .5, .5, .5);
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(5, 10, 0), .05, .5, .5, .5);
+			//((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 			vectorBox[vectorBox.size() - 1]->add();
 			break;
 		default:
