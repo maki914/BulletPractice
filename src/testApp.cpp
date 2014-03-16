@@ -30,6 +30,9 @@ void testApp::setup() {
 	world.enableDebugDraw();
 	world.setCamera(&camera);
 	world.setGravity(ofVec3f(0.f, -9.8f, 0.f));	//重力加速度
+
+	//デバッグ表示をoff
+	bDrawDebug = false;
 	
 
 	//sphere = new ofxBulletSphere();
@@ -82,7 +85,9 @@ void testApp::draw() {
 
 	ofSetLineWidth(1.f);
 	ofSetColor(255, 0, 200);
-	world.drawDebug();
+
+	//デバッグ表示切り替え
+	if(bDrawDebug) world.drawDebug();
 
 	//ofSetColor(100, 100, 100);
 	//ground.draw();
@@ -164,6 +169,9 @@ void testApp::keyPressed(int key) {
 				->applyCentralForce(btVector3(ofRandom(-10., 10.), ofRandom(-10., 10.), ofRandom(-10., 10.)));
 
 			vectorBox[vectorBox.size() - 1]->add();
+			break;
+		case 'd':
+			bDrawDebug = !bDrawDebug;
 			break;
 		default:
 			break;

@@ -22,6 +22,8 @@ public:
 	
 	ofxBulletWorldRigid			world;
 	ofxBulletBox				ground;
+
+	bool bDrawDebug;
 	
 	ofxBulletSphere*			sphere;
 	ofxBulletBox*				box;
