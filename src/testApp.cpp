@@ -159,7 +159,8 @@ void testApp::keyPressed(int key) {
 	switch (key){
 		case 'b':
 			vectorBox.push_back(new ofxBulletBox());
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(0, 10, 0), .05, .5, .5, .5);
+			//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(0, 10, 0), 10., .5, .5, .5);
 			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 			//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
 			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setProperties(0.5, 0.8);
