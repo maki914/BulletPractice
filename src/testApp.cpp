@@ -28,6 +28,7 @@ void testApp::setup() {
 	//world.broadphase();
 	world.enableGrabbing();
 	world.enableDebugDraw();
+	world.disableMousePickingEvents();
 	world.setCamera(&camera);
 	world.setGravity(ofVec3f(0.f, -9.8f, 0.f));	//d—Í‰Á‘¬“x
 
@@ -53,6 +54,36 @@ void testApp::setup() {
 	//cylinder = new ofxBulletCylinder();
 	//cylinder->create(world.world, ofVec3f(0, 2.4, 0), .8, .9, 1.8);
 	//cylinder->add();
+
+	//” ‚ð•\Ž¦
+	for (int i = -3; i < 3; i++){
+		for (int j = -3; j < 3; j++){
+			for (int k = 5; k < 10; k++){
+				vectorBox.push_back(new ofxBulletBox());
+				//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
+				((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(i, k, j), 10., 1., 1., 1.);
+				//((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+				//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
+				((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setProperties(0.0, 0.9);
+				vectorBox[vectorBox.size() - 1]->add();
+			}
+		}
+	}
+
+	//‹…‚ð•\Ž¦
+	for (int i = 4; i < 7; i++){
+		for (int j = 4; j < 7; j++){
+			for (int k = 5; k < 20; k+=2){
+				vectorBox.push_back(new ofxBulletSphere());
+				//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
+				((ofxBulletSphere*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(i, k, j), 10.,.5);
+				//((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+				//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
+				((ofxBulletSphere*)vectorBox[vectorBox.size() - 1])->setProperties(0.5, 0.9);
+				vectorBox[vectorBox.size() - 1]->add();
+			}
+		}
+	}
 
 	ground.create(world.world, ofVec3f(0., 0., 0.), 0., 50.f, 0., 50.f);
 	ground.setProperties(1., 1.); //(Restitution:”½”­ŒW”, Friction:–€ŽCŒW”)
@@ -160,7 +191,7 @@ void testApp::keyPressed(int key) {
 		case 'b':
 			vectorBox.push_back(new ofxBulletBox());
 			//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(0, 10, 0), 10., .5, .5, .5);
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(0, 10, 0), 1., .5, .5, .5);
 			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 			//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
 			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setProperties(0.5, 0.8);
