@@ -36,6 +36,7 @@ void testApp::setup() {
 	////create‚ÍofQuoternion‚ğ‘æOˆø”‚Éİ’è‰Â
 	//sphere->create(world.world, ofVec3f(0, 10, 0), 0.1, 1.25);	//(btDiscreteDynamicsWorld*, ˆÊ’u, ¿—Ê, ”¼Œa)
 	//sphere->setProperties(0.5, 0.5);
+	////sphere->applyForce(1.0, 0.0, 0.0);
 	//sphere->add();
 
 	//box = new ofxBulletBox();
@@ -135,13 +136,10 @@ void testApp::draw() {
 		ofLine(-25, 0, i, 25, 0, i);
 		ofLine(i, 0, -25, i, 0, 25);
 	}
-	//light.disable();
-	//ofDisableLighting();
+
 
 	glDisable(GL_DEPTH_TEST);
 	camera.end();
-
-
 
 	//ƒeƒLƒXƒg•\¦
 	int shapes = vectorBox.size();
@@ -156,8 +154,15 @@ void testApp::keyPressed(int key) {
 	switch (key){
 		case 'b':
 			vectorBox.push_back(new ofxBulletBox());
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(5, 10, 0), .05, .5, .5, .5);
-			//((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(0, 10, 0), .05, .5, .5, .5);
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+			//”½”­ŒW”A–€CŒW”‚ğ’Ç‰Á
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setProperties(0.5, 0.8);
+
+			//‰‘¬‚ğ’Ç‰Á
+			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])
+				->applyCentralForce(btVector3(ofRandom(-10., 10.), ofRandom(-10., 10.), ofRandom(-10., 10.)));
+
 			vectorBox[vectorBox.size() - 1]->add();
 			break;
 		default:
