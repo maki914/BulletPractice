@@ -176,16 +176,31 @@ void testApp::draw() {
 
 	//テキスト表示
 	int shapesNum = shapes.size();
-	ofVec3f mouseLoc = camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
-	ofVec3f camEuler = camera.getOrientationEuler();
-	ofVec3f camPos = camera.getGlobalPosition();
+	ofVec3f mouseLoc =	camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
+	ofVec3f camEuler =	camera.getOrientationEuler();
+	ofVec3f camPos =	camera.getGlobalPosition();
+	ofVec3f camLook =	camera.getLookAtDir();
+	//camera.get
+	//ofVec3f v1(1, 0, 0);
+	//ofVec3f v2 = v1.getRotated(45, 45, 90);
+	//ofVec3f v3 = v2.getRotated(45, 0, 0);
+	//ofVec3f v4 = v3.getRotated(0, 45, 0);
+	
+	ofNode	camTar = camera.getTarget();
 	//ofNode camTar = camera.getTarget();
 	stringstream ss;
+	//ss << "v2: " << v2.x << ", " << v2.y << ", " << v2.z << endl;
+	//ss << "v3: " << v3.x << ", " << v3.y << ", " << v3.z << endl;
+	//ss << "v4: " << v4.x << ", " << v4.y << ", " << v4.z << endl;
 	ss << "FPS: " << ofToString(ofGetFrameRate(), 0) << endl;
 	ss << "Shapes: " << shapesNum << endl;
 	ss << "camPos: " << camPos.x << ", " << camPos.y << ", " << camPos.z << endl;
+	ss << "camTar: " << camTar.getX() << ", " << camTar.getY() << ", " << camTar.getZ() << endl;
 	ss << "camEuler: " << camEuler.x << ", " << camEuler.y << ", " << camEuler.z << endl;
+	//ss << "camTar: " << camera.getTarget().getX() << endl;
 	ss << "mouseLoc: " << mouseLoc.x << ", " << mouseLoc.y << ", " << mouseLoc.z << endl;
+	ss << "distance: " << camera.getDistance() << endl;
+	ss << "diff: " << camPos.x - mouseLoc.x << ", " << camPos.y - mouseLoc.y << ", " << (camPos.z - mouseLoc.z) * -1 << endl;
 	ofSetColor(50);
 	ofDrawBitmapString(ss.str().c_str(), 20, 20);
 }
@@ -196,6 +211,7 @@ void testApp::keyPressed(int key) {
 	float camPosX = camera.getGlobalPosition().x;
 	float camPosY = camera.getGlobalPosition().y;
 	float camPosZ = camera.getGlobalPosition().z;
+	
 	
 	switch (key){
 		case 'b':
@@ -236,7 +252,8 @@ void testApp::keyPressed(int key) {
 
 			//初速を追加
 			((ofxBulletBox*)shapes[shapes.size() - 1])
-				->applyCentralForce(btVector3(camPosX * -1, camPosY * -1, camPosZ * -1 ));
+				->applyCentralForce(btVector3(camPosX * -10, camPosY * -10, camPosZ * -10 ));
+			
 
 			shapes[shapes.size() - 1]->add();
 			break;
