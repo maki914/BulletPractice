@@ -10,8 +10,10 @@ void testApp::setup() {
 
 	//ÉJÉÅÉâê›íË
 	camera.setDistance(20);
+	camera.setPosition(ofVec3f(20, 10, 20));
 	//camera.setPosition(ofVec3f(0, -7.f, -10.f));
-	//camera.lookAt(ofVec3f(0, 0, 0), ofVec3f(0, -1, 0));
+	//camera.lookAt(ofVec3f(0, 0, 0), ofVec3f(0, 1, 0));
+	camera.setTarget(ofVec3f(0, 0, 0));
 	//camera.setFov(60.f);
 
 	//ÉâÉCÉeÉBÉìÉOê›íË
@@ -103,8 +105,8 @@ void testApp::update() {
 void testApp::draw() {
 	glEnable(GL_DEPTH_TEST);
 	camera.begin();
-	ofRotateX(45);
-	ofRotateY(-45);
+	//ofRotateX(45);
+	//ofRotateY(-45);
 	//light.disable();
 	ofDisableAlphaBlending();
 	ofDisableBlendMode();
@@ -174,20 +176,32 @@ void testApp::draw() {
 
 	//ÉeÉLÉXÉgï\é¶
 	int shapesNum = shapes.size();
+	ofVec3f mouseLoc = camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
+	ofVec3f camEuler = camera.getOrientationEuler();
+	ofVec3f camPos = camera.getGlobalPosition();
+	//ofNode camTar = camera.getTarget();
 	stringstream ss;
 	ss << "FPS: " << ofToString(ofGetFrameRate(), 0) << endl;
 	ss << "Shapes: " << shapesNum << endl;
+	ss << "camPos: " << camPos.x << ", " << camPos.y << ", " << camPos.z << endl;
+	ss << "camEuler: " << camEuler.x << ", " << camEuler.y << ", " << camEuler.z << endl;
+	ss << "mouseLoc: " << mouseLoc.x << ", " << mouseLoc.y << ", " << mouseLoc.z << endl;
 	ofSetColor(50);
 	ofDrawBitmapString(ss.str().c_str(), 20, 20);
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key) {
+	ofVec3f mouseLoc = camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
+	float camPosX = camera.getGlobalPosition().x;
+	float camPosY = camera.getGlobalPosition().y;
+	float camPosZ = camera.getGlobalPosition().z;
+	
 	switch (key){
 		case 'b':
 			shapes.push_back(new ofxBulletBox());
 			//(btDiscreteDynamicsWorld*, à íu, éøó , îºåa)
-			((ofxBulletBox*)shapes[shapes.size() - 1])->create(world.world, ofVec3f(0, 10, 0), 1., .5, .5, .5);
+			((ofxBulletBox*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 1., .5, .5, .5);
 			((ofxBulletBox*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 			//îΩî≠åWêîÅAñÄéCåWêîÇí«â¡
 			((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
@@ -198,8 +212,40 @@ void testApp::keyPressed(int key) {
 
 			shapes[shapes.size() - 1]->add();
 			break;
+		case 's':
+			shapes.push_back(new ofxBulletSphere());
+			//(btDiscreteDynamicsWorld*, à íu, éøó , îºåa)
+			((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 0.05, .5);
+			((ofxBulletSphere*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+			//îΩî≠åWêîÅAñÄéCåWêîÇí«â¡
+			((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
+
+			//èâë¨Çí«â¡
+			((ofxBulletSphere*)shapes[shapes.size() - 1])
+				->applyCentralForce(btVector3(ofRandom(-10., 10.), ofRandom(-10., 10.), ofRandom(-10., 10.)));
+
+			shapes[shapes.size() - 1]->add();
+			break;
+		case ' ':
+			shapes.push_back(new ofxBulletSphere());
+			//(btDiscreteDynamicsWorld*, à íu, éøó , îºåa)
+			((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 0.05, .5);
+			((ofxBulletSphere*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+			//îΩî≠åWêîÅAñÄéCåWêîÇí«â¡
+			((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
+
+			//èâë¨Çí«â¡
+			((ofxBulletBox*)shapes[shapes.size() - 1])
+				->applyCentralForce(btVector3(camPosX * -1, camPosY * -1, camPosZ * -1 ));
+
+			shapes[shapes.size() - 1]->add();
+			break;
 		case 'd':
 			bDrawDebug = !bDrawDebug;
+			break;
+		case 'r':
+			camera.setPosition(ofVec3f(20, 10, 20));
+			camera.setTarget(ofVec3f(0, 0, 0));
 			break;
 		default:
 			break;
