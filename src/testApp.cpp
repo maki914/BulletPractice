@@ -195,12 +195,12 @@ void testApp::draw() {
 	ss << "FPS: " << ofToString(ofGetFrameRate(), 0) << endl;
 	ss << "Shapes: " << shapesNum << endl;
 	ss << "camPos: " << camPos.x << ", " << camPos.y << ", " << camPos.z << endl;
-	ss << "camTar: " << camTar.getX() << ", " << camTar.getY() << ", " << camTar.getZ() << endl;
-	ss << "camEuler: " << camEuler.x << ", " << camEuler.y << ", " << camEuler.z << endl;
+	//ss << "camTar: " << camTar.getX() << ", " << camTar.getY() << ", " << camTar.getZ() << endl;
+	//ss << "camEuler: " << camEuler.x << ", " << camEuler.y << ", " << camEuler.z << endl;
 	//ss << "camTar: " << camera.getTarget().getX() << endl;
-	ss << "mouseLoc: " << mouseLoc.x << ", " << mouseLoc.y << ", " << mouseLoc.z << endl;
-	ss << "distance: " << camera.getDistance() << endl;
-	ss << "diff: " << camPos.x - mouseLoc.x << ", " << camPos.y - mouseLoc.y << ", " << (camPos.z - mouseLoc.z) * -1 << endl;
+	//ss << "mouseLoc: " << mouseLoc.x << ", " << mouseLoc.y << ", " << mouseLoc.z << endl;
+	//ss << "distance: " << camera.getDistance() << endl;
+	//ss << "diff: " << camPos.x - mouseLoc.x << ", " << camPos.y - mouseLoc.y << ", " << (camPos.z - mouseLoc.z) * -1 << endl;
 	ofSetColor(50);
 	ofDrawBitmapString(ss.str().c_str(), 20, 20);
 }
@@ -245,14 +245,14 @@ void testApp::keyPressed(int key) {
 		case ' ':
 			shapes.push_back(new ofxBulletSphere());
 			//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
-			((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 0.05, .5);
+			((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 5., .5);
 			((ofxBulletSphere*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 			//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
 			((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
 
 			//‰‘¬‚ð’Ç‰Á
 			((ofxBulletBox*)shapes[shapes.size() - 1])
-				->applyCentralForce(btVector3(camPosX * -10, camPosY * -10, camPosZ * -10 ));
+				->applyCentralForce(btVector3(camPosX * -500, camPosY * -500, camPosZ * -500 ));
 			
 
 			shapes[shapes.size() - 1]->add();
