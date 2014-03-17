@@ -56,9 +56,9 @@ void testApp::setup() {
 	//cylinder->add();
 
 	//‹…‚ð•\Ž¦
-	for (int i = 4; i < 7; i++){
-		for (int j = 4; j < 7; j++){
-			for (int k = 5; k < 20; k += 2){
+	for (int i = -3; i < 3; i++){
+		for (int j = -3; j < 3; j++){
+			for (int k = 5; k < 15; k += 2){
 				shapes.push_back(new ofxBulletSphere());
 				//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
 				((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, ofVec3f(i, k, j), 10., .5);
@@ -73,13 +73,13 @@ void testApp::setup() {
 	//” ‚ð•\Ž¦
 	for (int i = -3; i < 3; i++){
 		for (int j = -3; j < 3; j++){
-			for (int k = 5; k < 10; k++){
+			for (int k = 20; k < 30; k++){
 				shapes.push_back(new ofxBulletBox());
 				//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
 				((ofxBulletBox*)shapes[shapes.size() - 1])->create(world.world, ofVec3f(i, k, j), 10., 1., 1., 1.);
 				//((ofxBulletBox*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 				//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
-				((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.0, 0.9);
+				((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.9);
 				shapes[shapes.size() - 1]->add();
 			}
 		}
@@ -120,15 +120,24 @@ void testApp::draw() {
 	ofSetColor(255, 0, 200);
 
 	//ƒfƒoƒbƒO•\Ž¦Ø‚è‘Ö‚¦
-	if(bDrawDebug) world.drawDebug();
-
+	if (bDrawDebug) {
+		world.drawDebug();
+		ofSetLineWidth(1.5f);
+		ofSetColor(255, 0, 0);
+		ofLine(-50, 0, 0, 50, 0, 0);	//xŽ²
+		ofSetColor(0, 0, 255);
+		ofLine(0, 0, -50, 0, 0, 50);	//yŽ²
+		ofSetColor(0, 255, 0);
+		ofLine(0, -50, 0, 0, 50, 0);	//zŽ²
+		ofSetColor(200);
+	}
 	//ofSetColor(100, 100, 100);
 	//ground.draw();
 
 	ofSetColor(225, 225, 225);
 	//sphere->draw();
 
-	ofSetColor(225, 225, 225);
+	
 
 	//if (ofGetFrameNum() % 30 == 0){
 	//	shapes.push_back(new ofxBulletBox());
@@ -137,7 +146,8 @@ void testApp::draw() {
 	//	shapes[shapes.size() - 1]->add();
 	//}
 
-	//box•`‰æ
+	//•`‰æ
+	ofSetColor(225, 225, 225);
 	for (int i = 0; i < shapes.size(); i++){
 		shapes[i]->draw();
 	}
@@ -150,25 +160,8 @@ void testApp::draw() {
 	//ofPopStyle();
 	
 
-	ofSetColor(225, 225, 225);
-	//cylinder->draw();
-
-
-
-	ofSetColor(225, 225, 225);
-	//cone->draw();
-
 
 	//’n–Ê•`‰æ
-	ofSetLineWidth(1.5f);
-	ofSetColor(255, 0, 0);
-	ofLine(-50, 0, 0, 50, 0, 0);
-	ofSetColor(0, 0, 255);
-	ofLine(0, 0, -50, 0, 0, 50);
-	ofSetColor(0, 255, 0);
-	ofLine(0, -50, 0, 0, 50, 0);
-	ofSetColor(200);
-
 	ofSetLineWidth(1.f);
 	for (int i = -25; i <= 25; i++) {
 		ofLine(-25, 0, i, 25, 0, i);
