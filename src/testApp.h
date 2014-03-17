@@ -31,7 +31,7 @@ public:
 	ofxBulletCapsule*			capsule;
 	ofxBulletCylinder*			cylinder;
 
-	vector<ofxBulletBaseShape*>		vectorBox;
+	vector<ofxBulletBaseShape*>		shapes;
 	ofMaterial						shapesMat;
 	
 	ofEasyCam					camera;

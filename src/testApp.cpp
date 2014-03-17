@@ -55,35 +55,37 @@ void testApp::setup() {
 	//cylinder->create(world.world, ofVec3f(0, 2.4, 0), .8, .9, 1.8);
 	//cylinder->add();
 
-	//” ‚ð•\Ž¦
-	for (int i = -3; i < 3; i++){
-		for (int j = -3; j < 3; j++){
-			for (int k = 5; k < 10; k++){
-				vectorBox.push_back(new ofxBulletBox());
+	//‹…‚ð•\Ž¦
+	for (int i = 4; i < 7; i++){
+		for (int j = 4; j < 7; j++){
+			for (int k = 5; k < 20; k += 2){
+				shapes.push_back(new ofxBulletSphere());
 				//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
-				((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(i, k, j), 10., 1., 1., 1.);
-				//((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+				((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, ofVec3f(i, k, j), 10., .5);
+				//((ofxBulletBox*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 				//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
-				((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setProperties(0.0, 0.9);
-				vectorBox[vectorBox.size() - 1]->add();
+				((ofxBulletSphere*)shapes[shapes.size() - 1])->setProperties(0.5, 0.9);
+				shapes[shapes.size() - 1]->add();
 			}
 		}
 	}
 
-	//‹…‚ð•\Ž¦
-	for (int i = 4; i < 7; i++){
-		for (int j = 4; j < 7; j++){
-			for (int k = 5; k < 20; k+=2){
-				vectorBox.push_back(new ofxBulletSphere());
+	//” ‚ð•\Ž¦
+	for (int i = -3; i < 3; i++){
+		for (int j = -3; j < 3; j++){
+			for (int k = 5; k < 10; k++){
+				shapes.push_back(new ofxBulletBox());
 				//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
-				((ofxBulletSphere*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(i, k, j), 10.,.5);
-				//((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+				((ofxBulletBox*)shapes[shapes.size() - 1])->create(world.world, ofVec3f(i, k, j), 10., 1., 1., 1.);
+				//((ofxBulletBox*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 				//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
-				((ofxBulletSphere*)vectorBox[vectorBox.size() - 1])->setProperties(0.5, 0.9);
-				vectorBox[vectorBox.size() - 1]->add();
+				((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.0, 0.9);
+				shapes[shapes.size() - 1]->add();
 			}
 		}
 	}
+
+	
 
 	ground.create(world.world, ofVec3f(0., 0., 0.), 0., 50.f, 0., 50.f);
 	ground.setProperties(1., 1.); //(Restitution:”½”­ŒW”, Friction:–€ŽCŒW”)
@@ -94,7 +96,7 @@ void testApp::setup() {
 //--------------------------------------------------------------
 void testApp::update() {
 	world.update();
-	ofSetWindowTitle(ofToString(ofGetFrameRate(), 0));
+	//ofSetWindowTitle(ofToString(ofGetFrameRate(), 0));
 }
 
 //--------------------------------------------------------------
@@ -129,15 +131,15 @@ void testApp::draw() {
 	ofSetColor(225, 225, 225);
 
 	//if (ofGetFrameNum() % 30 == 0){
-	//	vectorBox.push_back(new ofxBulletBox());
-	//	((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(5, 50, 0), .05, .5, .5, .5);
-	//	((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
-	//	vectorBox[vectorBox.size() - 1]->add();
+	//	shapes.push_back(new ofxBulletBox());
+	//	((ofxBulletBox*)shapes[shapes.size() - 1])->create(world.world, ofVec3f(5, 50, 0), .05, .5, .5, .5);
+	//	((ofxBulletBox*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+	//	shapes[shapes.size() - 1]->add();
 	//}
 
 	//box•`‰æ
-	for (int i = 0; i < vectorBox.size(); i++){
-		vectorBox[i]->draw();
+	for (int i = 0; i < shapes.size(); i++){
+		shapes[i]->draw();
 	}
 	//ofPushStyle();
 	//shapesMat.begin();
@@ -178,9 +180,10 @@ void testApp::draw() {
 	camera.end();
 
 	//ƒeƒLƒXƒg•\Ž¦
-	int shapes = vectorBox.size();
+	int shapesNum = shapes.size();
 	stringstream ss;
-	ss << "Box Num: " << shapes << endl;
+	ss << "FPS: " << ofToString(ofGetFrameRate(), 0) << endl;
+	ss << "Shapes: " << shapesNum << endl;
 	ofSetColor(50);
 	ofDrawBitmapString(ss.str().c_str(), 20, 20);
 }
@@ -189,18 +192,18 @@ void testApp::draw() {
 void testApp::keyPressed(int key) {
 	switch (key){
 		case 'b':
-			vectorBox.push_back(new ofxBulletBox());
+			shapes.push_back(new ofxBulletBox());
 			//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->create(world.world, ofVec3f(0, 10, 0), 1., .5, .5, .5);
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+			((ofxBulletBox*)shapes[shapes.size() - 1])->create(world.world, ofVec3f(0, 10, 0), 1., .5, .5, .5);
+			((ofxBulletBox*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
 			//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])->setProperties(0.5, 0.8);
+			((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
 
 			//‰‘¬‚ð’Ç‰Á
-			((ofxBulletBox*)vectorBox[vectorBox.size() - 1])
+			((ofxBulletBox*)shapes[shapes.size() - 1])
 				->applyCentralForce(btVector3(ofRandom(-10., 10.), ofRandom(-10., 10.), ofRandom(-10., 10.)));
 
-			vectorBox[vectorBox.size() - 1]->add();
+			shapes[shapes.size() - 1]->add();
 			break;
 		case 'd':
 			bDrawDebug = !bDrawDebug;
