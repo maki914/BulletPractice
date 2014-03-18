@@ -37,7 +37,6 @@ void testApp::setup() {
 	//ƒfƒoƒbƒO•\Ž¦‚ðoff
 	bDrawDebug = false;
 
-	
 
 	//sphere = new ofxBulletSphere();
 	////create‚ÍofQuoternion‚ð‘æŽOˆø”‚ÉÝ’è‰Â
@@ -84,7 +83,6 @@ void testApp::setup() {
 				//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
 				((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.9);
 				shapes[shapes.size() - 1]->add();
-
 			}
 		}
 	}
@@ -97,12 +95,12 @@ void testApp::setup() {
 	jBox.push_back(new ofxBulletBox());
 	((ofxBulletBox*)jBox[jBox.size() - 1])->create(world.world, ofVec3f(15, 5, 5), 10., 3., 3., 3.);
 	jBox[jBox.size() - 1]->add();
-	
+
 	//” ‚Éjoint‚ð’Ç‰Á
 	joints.push_back(new ofxBulletJoint());
 	joints[joints.size() - 1]->create(world.world, jBox[0], ofVec3f(jBox[1]->getPosition()));
 	joints[joints.size() - 1]->add();
-	
+
 
 	ground.create(world.world, ofVec3f(0., 0., 0.), 0., 50.f, 0., 50.f);
 	ground.setProperties(1., 1.); //(Restitution:”½”­ŒW”, Friction:–€ŽCŒW”)
@@ -115,7 +113,7 @@ void testApp::update() {
 	world.update();
 	ofVec3f mousePos = camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
 
-	joints[joints.size() -1]->updatePivotPos(ofVec3f(jBox[1]->getPosition()), 1.f);
+	joints[joints.size() - 1]->updatePivotPos(ofVec3f(jBox[1]->getPosition()), 1.f);
 	//ofSetWindowTitle(ofToString(ofGetFrameRate(), 0));
 }
 
@@ -130,12 +128,12 @@ void testApp::draw() {
 	ofDisableBlendMode();
 
 	//joints[joints.size()-1]
-	
+
 
 	//ofDrawGrid(50, 25, false, false, true, false);
 	//ofEnableLighting();
 	//light.enable();
-	
+
 
 
 	ofSetLineWidth(1.f);
@@ -159,7 +157,7 @@ void testApp::draw() {
 	ofSetColor(225, 225, 225);
 	//sphere->draw();
 
-	
+
 
 	//if (ofGetFrameNum() % 30 == 0){
 	//	shapes.push_back(new ofxBulletBox());
@@ -185,7 +183,7 @@ void testApp::draw() {
 	//}
 	//shapesMat.end();
 	//ofPopStyle();
-	
+
 
 
 	//’n–Ê•`‰æ
@@ -202,16 +200,16 @@ void testApp::draw() {
 
 	//ƒeƒLƒXƒg•\Ž¦
 	int shapesNum = shapes.size();
-	ofVec3f mouseLoc =	camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
-	ofVec3f camEuler =	camera.getOrientationEuler();
-	ofVec3f camPos =	camera.getGlobalPosition();
-	ofVec3f camLook =	camera.getLookAtDir();
+	ofVec3f mouseLoc = camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
+	ofVec3f camEuler = camera.getOrientationEuler();
+	ofVec3f camPos = camera.getGlobalPosition();
+	ofVec3f camLook = camera.getLookAtDir();
 	//camera.get
 	//ofVec3f v1(1, 0, 0);
 	//ofVec3f v2 = v1.getRotated(45, 45, 90);
 	//ofVec3f v3 = v2.getRotated(45, 0, 0);
 	//ofVec3f v4 = v3.getRotated(0, 45, 0);
-	
+
 	ofNode	camTar = camera.getTarget();
 	//ofNode camTar = camera.getTarget();
 	stringstream ss;
@@ -237,61 +235,61 @@ void testApp::keyPressed(int key) {
 	float camPosX = camera.getGlobalPosition().x;
 	float camPosY = camera.getGlobalPosition().y;
 	float camPosZ = camera.getGlobalPosition().z;
-	
-	
+
+
 	switch (key){
-		case 'b':
-			shapes.push_back(new ofxBulletBox());
-			//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
-			((ofxBulletBox*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 1., .5, .5, .5);
-			((ofxBulletBox*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
-			//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
-			((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
+	case 'b':
+		shapes.push_back(new ofxBulletBox());
+		//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
+		((ofxBulletBox*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 1., .5, .5, .5);
+		((ofxBulletBox*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+		//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
+		((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
 
-			//‰‘¬‚ð’Ç‰Á
-			((ofxBulletBox*)shapes[shapes.size() - 1])
-				->applyCentralForce(btVector3(ofRandom(-10., 10.), ofRandom(-10., 10.), ofRandom(-10., 10.)));
+		//‰‘¬‚ð’Ç‰Á
+		((ofxBulletBox*)shapes[shapes.size() - 1])
+			->applyCentralForce(btVector3(ofRandom(-10., 10.), ofRandom(-10., 10.), ofRandom(-10., 10.)));
 
-			shapes[shapes.size() - 1]->add();
-			break;
-		case 's':
-			shapes.push_back(new ofxBulletSphere());
-			//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
-			((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 0.05, .5);
-			((ofxBulletSphere*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
-			//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
-			((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
+		shapes[shapes.size() - 1]->add();
+		break;
+	case 's':
+		shapes.push_back(new ofxBulletSphere());
+		//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
+		((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 0.05, .5);
+		((ofxBulletSphere*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+		//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
+		((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
 
-			//‰‘¬‚ð’Ç‰Á
-			((ofxBulletSphere*)shapes[shapes.size() - 1])
-				->applyCentralForce(btVector3(ofRandom(-10., 10.), ofRandom(-10., 10.), ofRandom(-10., 10.)));
+		//‰‘¬‚ð’Ç‰Á
+		((ofxBulletSphere*)shapes[shapes.size() - 1])
+			->applyCentralForce(btVector3(ofRandom(-10., 10.), ofRandom(-10., 10.), ofRandom(-10., 10.)));
 
-			shapes[shapes.size() - 1]->add();
-			break;
-		case ' ':
-			shapes.push_back(new ofxBulletSphere());
-			//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
-			((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 5., .5);
-			((ofxBulletSphere*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
-			//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
-			((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
+		shapes[shapes.size() - 1]->add();
+		break;
+	case ' ':
+		shapes.push_back(new ofxBulletSphere());
+		//(btDiscreteDynamicsWorld*, ˆÊ’u, Ž¿—Ê, ”¼Œa)
+		((ofxBulletSphere*)shapes[shapes.size() - 1])->create(world.world, mouseLoc, 5., .5);
+		((ofxBulletSphere*)shapes[shapes.size() - 1])->setActivationState(DISABLE_DEACTIVATION);
+		//”½”­ŒW”A–€ŽCŒW”‚ð’Ç‰Á
+		((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.8);
 
-			//‰‘¬‚ð’Ç‰Á
-			((ofxBulletBox*)shapes[shapes.size() - 1])
-				->applyCentralForce(btVector3(camPosX * -500, camPosY * -500, camPosZ * -500 ));
-			
+		//‰‘¬‚ð’Ç‰Á
+		((ofxBulletBox*)shapes[shapes.size() - 1])
+			->applyCentralForce(btVector3(camPosX * -500, camPosY * -500, camPosZ * -500));
 
-			shapes[shapes.size() - 1]->add();
-			break;
-		case 'd':
-			bDrawDebug = !bDrawDebug;
-			break;
-		case 'r':
-			camera.setPosition(ofVec3f(20, 10, 20));
-			camera.setTarget(ofVec3f(0, 0, 0));
-			break;
-		default:
-			break;
+
+		shapes[shapes.size() - 1]->add();
+		break;
+	case 'd':
+		bDrawDebug = !bDrawDebug;
+		break;
+	case 'r':
+		camera.setPosition(ofVec3f(20, 10, 20));
+		camera.setTarget(ofVec3f(0, 0, 0));
+		break;
+	default:
+		break;
 	}
 
 }
