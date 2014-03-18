@@ -20,8 +20,6 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 	
-	
-
 	ofxBulletWorldRigid			world;
 	ofxBulletBox				ground;
 
@@ -29,14 +27,8 @@ public:
 	
 	ofxBulletSphere*			sphere;
 	ofxBulletBox*				box;
-	ofxBulletCone*				cone;
-	ofxBulletCapsule*			capsule;
-	ofxBulletCylinder*			cylinder;
-
+	
 	vector<ofxBulletBaseShape*>		shapes;
-	vector<ofxBulletBaseShape*>		jBox;
-	vector<ofxBulletJoint*>			joints;
-	ofMaterial						shapesMat;
 	
 	ofEasyCam					camera;
 	ofLight						light;
