@@ -83,6 +83,7 @@ void testApp::setup() {
 				//”½”­ŒW”A–€CŒW”‚ğ’Ç‰Á
 				((ofxBulletBox*)shapes[shapes.size() - 1])->setProperties(0.5, 0.9);
 				shapes[shapes.size() - 1]->add();
+
 			}
 		}
 	}
