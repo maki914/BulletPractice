@@ -36,6 +36,7 @@ void testApp::setup() {
 
 	//デバッグ表示をoff
 	bDrawDebug = false;
+
 	
 
 	//sphere = new ofxBulletSphere();
