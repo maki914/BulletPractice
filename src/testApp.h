@@ -34,6 +34,8 @@ public:
 	ofxBulletCylinder*			cylinder;
 
 	vector<ofxBulletBaseShape*>		shapes;
+	vector<ofxBulletBaseShape*>		jBox;
+	vector<ofxBulletJoint*>			joints;
 	ofMaterial						shapesMat;
 	
 	ofEasyCam					camera;

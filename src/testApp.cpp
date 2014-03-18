@@ -87,6 +87,15 @@ void testApp::setup() {
 		}
 	}
 
+	//joint—p‚Ì” ‚ð•\Ž¦
+	jBox.push_back(new ofxBulletBox());
+	((ofxBulletBox*)jBox[0])->create(world.world, ofVec3f(10, 5, 5), 10., 5., 5., 5.);
+	jBox[0]->add();
+
+	//” ‚Éjoint‚ð’Ç‰Á
+	joints.push_back(new ofxBulletJoint());
+	joints[joints.size() - 1]->create(world.world, jBox[0], ofVec3f(0, 0, 0));
+	joints[joints.size() - 1]->add();
 	
 
 	ground.create(world.world, ofVec3f(0., 0., 0.), 0., 50.f, 0., 50.f);
@@ -153,6 +162,11 @@ void testApp::draw() {
 	for (int i = 0; i < shapes.size(); i++){
 		shapes[i]->draw();
 	}
+
+	ofSetColor(255, 100, 100);
+	for (int i = 0; i < jBox.size(); i++){
+		jBox[i]->draw();
+	}
 	//ofPushStyle();
 	//shapesMat.begin();
 	//for (int i = 0; i < shapes.size(); i++) {
@@ -165,6 +179,7 @@ void testApp::draw() {
 
 	//’n–Ê•`‰æ
 	ofSetLineWidth(1.f);
+	ofSetColor(225, 225, 225);
 	for (int i = -25; i <= 25; i++) {
 		ofLine(-25, 0, i, 25, 0, i);
 		ofLine(i, 0, -25, i, 0, 25);
