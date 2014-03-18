@@ -89,12 +89,16 @@ void testApp::setup() {
 
 	//joint—p‚Ì” ‚ð•\Ž¦
 	jBox.push_back(new ofxBulletBox());
-	((ofxBulletBox*)jBox[0])->create(world.world, ofVec3f(10, 5, 5), 10., 5., 5., 5.);
-	jBox[0]->add();
+	((ofxBulletBox*)jBox[jBox.size() - 1])->create(world.world, ofVec3f(10, 5, 5), 10., 2., 2., 2.);
+	jBox[jBox.size() - 1]->add();
 
+	jBox.push_back(new ofxBulletBox());
+	((ofxBulletBox*)jBox[jBox.size() - 1])->create(world.world, ofVec3f(15, 5, 5), 10., 3., 3., 3.);
+	jBox[jBox.size() - 1]->add();
+	
 	//” ‚Éjoint‚ð’Ç‰Á
 	joints.push_back(new ofxBulletJoint());
-	joints[joints.size() - 1]->create(world.world, jBox[0], ofVec3f(0, 0, 0));
+	joints[joints.size() - 1]->create(world.world, jBox[0], ofVec3f(jBox[1]->getPosition()));
 	joints[joints.size() - 1]->add();
 	
 
@@ -109,7 +113,7 @@ void testApp::update() {
 	world.update();
 	ofVec3f mousePos = camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
 
-	joints[0]->updatePivotPos(mousePos, 2.f);
+	joints[joints.size() -1]->updatePivotPos(ofVec3f(jBox[1]->getPosition()), 1.f);
 	//ofSetWindowTitle(ofToString(ofGetFrameRate(), 0));
 }
 
