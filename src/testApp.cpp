@@ -107,6 +107,9 @@ void testApp::setup() {
 //--------------------------------------------------------------
 void testApp::update() {
 	world.update();
+	ofVec3f mousePos = camera.screenToWorld(ofVec3f((float)ofGetMouseX(), (float)ofGetMouseY(), 0));
+
+	joints[0]->updatePivotPos(mousePos, 2.f);
 	//ofSetWindowTitle(ofToString(ofGetFrameRate(), 0));
 }
 
@@ -120,6 +123,8 @@ void testApp::draw() {
 	ofDisableAlphaBlending();
 	ofDisableBlendMode();
 
+	//joints[joints.size()-1]
+	
 
 	//ofDrawGrid(50, 25, false, false, true, false);
 	//ofEnableLighting();
